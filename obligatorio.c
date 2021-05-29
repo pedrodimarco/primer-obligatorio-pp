@@ -2,6 +2,63 @@
 #include <stdlib.h>
 #include <time.h>
 
+void generarBosque(char matriz[10][10]) {
+
+    int pos1, pos2, cantArboles = 0;
+
+    while (cantArboles < 10) {
+        pos1 = rand() % 9;
+        if(pos1 == 0) {
+            pos1++;
+        }
+        pos2 = rand() % 9;
+        if(pos2 == 0) {
+            pos2++;
+        }
+        if(matriz[pos1][pos2] != '0') {
+            matriz[pos1][pos2] = '0';
+            cantArboles++;
+        }
+    }
+}
+
+void posicionarJugadores(char matriz[10][10]) {
+
+    int pos1, pos2;
+
+	for(pos2 = 0; pos2 <= 9; pos2++) {
+		
+		for(pos1 = 0; pos1 <= 9; pos1++){
+			
+            if (pos1 == 0 && pos2 == 9) {
+                matriz
+			[pos1][pos2] = 'A';
+            } 
+            else if (pos1 == 9 && pos2 == 0) {
+                matriz
+			[pos1][pos2] = 'B';
+            }
+			else if(matriz
+		[pos1][pos2] != '0') { 
+				matriz
+			[pos1][pos2] = ' ';
+			}
+		}
+	}
+}
+
+void reloadBosque(char matriz[10][10]) {
+    int pos1, pos2;
+
+    for(pos2 = 0; pos2 <= 9; pos2++) {
+		
+	    for(pos1 = 0; pos1 <= 9; pos1++){ 
+            printf("|%c ", matriz[pos1][pos2]);
+        }
+        printf("|\n");
+    }
+}
+
 int main() {
 
     srand(time(NULL));
@@ -14,52 +71,19 @@ int main() {
     //Se colocan 10 arboles al azar
     //(Los arboles estan representados por los '0')
 
-    while(cantArboles <= 9) {
-
-        pos1 = rand() % 9;
-        if(pos1 == 0) {
-            pos1++;
-        }
-        pos2 = rand() % 9;
-        if(pos2 == 0) {
-            pos2++;
-        }
-        if(bosque[pos1][pos2] != '0') {
-            bosque[pos1][pos2] = '0';
-            cantArboles++;
-        }
-    }
+    generarBosque(bosque);
     
     //Inicializo a los jugadores A y B en sus posiciones iniciales
-    for(pos2 = 0; pos2 <= 9; pos2++) {
-		
-		for(pos1 = 0; pos1 <= 9; pos1++){
-			
-            if (pos1 == 0 && pos2 == 9) {
-                bosque[pos1][pos2] = 'A';
-            } 
-            else if (pos1 == 9 && pos2 == 0) {
-                bosque[pos1][pos2] = 'B';
-            }
-			else if(bosque[pos1][pos2] != '0') { 
-				bosque[pos1][pos2] = ' ';
-			}
-		}
-	}
+    
+    posicionarJugadores(bosque);
 
     //Bucle del juego
     do { 
-        //Limpio pantalla e imprimo el tablero de juego
-        //(Si es usuario de linux usar cambiar "cls" por "clear")
-        system("cls");
         printf("\n");
-        for(pos2 = 0; pos2 <= 9; pos2++) {
-		
-		    for(pos1 = 0; pos1 <= 9; pos1++){ 
-                printf("|%c ", bosque[pos1][pos2]);
-            }
-            printf("|\n");
-        }
+        
+        //Imprimo el tablero de juego
+        
+        reloadBosque(bosque);
 
         //Simulo el giro de una moneda para asignar turno aleatoriamente al jugador que va a iniciar el juego
         if(coin%2 == 0){
